@@ -1,0 +1,20 @@
+POST /dang-nhap HTTP/1.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Content-Length: 158
+Content-Type: application/x-www-form-urlencoded
+Cookie: __RequestVerificationToken=3xpXcCZAhlgqykxT0o1pc2mNRF_rlz0duCYActaBrvQHW39az9t1EL-6DMokN-7YNo_4WE_91X2GRHZXLXUNNmVknvY1; _ga=GA1.3.1371673086.1657759236; ASP.NET_SessionId=ttl2lwgmbndbntaxo2yy4iz0; _gid=GA1.3.1770027579.1660824795
+Host: dangkyhoc.vnu.edu.vn
+Origin: http://dangkyhoc.vnu.edu.vn
+Referer: http://dangkyhoc.vnu.edu.vn/dang-nhap
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.
+
+---
+__RequestVerificationToken=_nfJQzHjmejEy9gCWZNR5dWxGO3FjYKSuocGN3mXweUn20fs73F1SXYrq20dJTVbmuzssckb3vZlLpSpfAOZY_KGN301&LoginName=19020487&Password=vu19102001
+---
+
+Set-Cookie: ASP.NET_SessionId=2mfqhfmlhbkbf00tfzfvditk; path=/; HttpOnly; SameSite=Lax

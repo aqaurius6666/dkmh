@@ -1,0 +1,39 @@
+POST http://dangkyhoc.vnu.edu.vn/dang-nhap
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44
+Origin: http://dangkyhoc.vnu.edu.vn
+Referer: http://dangkyhoc.vnu.edu.vn/dang-nhap
+Connection: keep-alive
+Accept-Language: en-US,en;q=0.9
+Upgrade-Insecure-Requests: 1
+Cookie: __RequestVerificationToken=7F-iFWNq7BGbDtGioft1ag3JY1hwUjQbA__3nw8Ca2rum8bVYUxDKXo5sW0CCIv3Xlz23rA6KqJk6uyns7aEoR8BbbA1
+
+__RequestVerificationToken=KNOF0SbBnHFdis-K2dsTOPEvdittPZPHIPPHgV7BT5EfUuXrX13pxH13VGXoKAZQDPOh9Lz46QdCtlAGPuE5M2czNKg1&LoginName=19020487&Password=
+
+####
+GET http://dangkyhoc.vnu.edu.vn/
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: __RequestVerificationToken=6i5PcC4m4JNDgDkS7oCxBLJ8QrAkFz-CvPpxvAsR35ucBvRjt9N0EYZFsEjCoJqJAiffmDdr1ie7OjUzyulotlGyLKc1; _ga=GA1.3.1894947777.1661049573; _gid=GA1.3.1329048089.1661049573; ASP.NET_SessionId=3ndxs2gtecisn0xiprl2muos
+Host: dangkyhoc.vnu.edu.vn
+Pragma: no-cache
+Referer: http://dangkyhoc.vnu.edu.vn/dang-nhap
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44
+
+####
+GET http://dangkyhoc.vnu.edu.vn/
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Cookie: ASP.NET_SessionId=3ndxs2gtecisn0xiprl2muos
+Host: dangkyhoc.vnu.edu.vn
+Referer: http://dangkyhoc.vnu.edu.vn/dang-nhap
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44

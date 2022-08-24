@@ -1,0 +1,14 @@
+version: '3.7'
+networks:
+  cluster:
+services:
+  tool:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - cluster
+  redis:
+    image: redis:alpine
+    networks:
+      - cluster

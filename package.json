@@ -4,16 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:server": "node server/index.js",
-    "start:tool": "node index.js"
+    "start:server": "node mock-server/index.js",
+    "start:test": "node index.js test",
+    "start:tool": "node index.js tool",
+    "start:logout": "node index.js logout",
+    "test": "jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand crawler/test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
+    "cookie-manager": "^0.0.19",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "jest": "^28.1.3",
+    "jquery": "^3.6.0",
+    "redis": "^4.2.0"
   }
 }
