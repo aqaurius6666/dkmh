@@ -4,7 +4,6 @@ const HttpAgent = require('./http-agent');
 const CookieManager = require('./cookie-manager');
 const fs = require('fs');
 const { safeParseJson, debug, log } = require('./utils');
-const { setMaxIdleHTTPParsers } = require('http');
 const crawller = Crawler.getInstance();
 const httpAgent = HttpAgent.getInstance();
 const cookieManager = CookieManager.getInstance();
@@ -123,18 +122,6 @@ const test = async () => {
     }
     log('Get home page');
     await httpAgent.get('/', '', {});
-
-    let registeredCourses = await getRegisteredCourses();
-
-    let courses = await getCourses();
-
-    log('Get courses page');
-    // Loop
-    targetCourses = config.TARGET_COURSES;
-    await Promise.all(targetCourses.map(async (each) => {
-        return register(courses, registeredCourses, each);
-    }));
-    
 };
 
 const tool = async () => {
@@ -176,6 +163,8 @@ const main = async (args) => {
             await test();
             break;
         case 'tool':
+            await test()
+            await clear();
             await tool();
             break;
         case 'logout':

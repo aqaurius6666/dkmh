@@ -10,3 +10,5 @@
 
 # Lưu ý
 1. Để dừng chạy `Control + C` (MacOS), `Ctrl + C` (Ubuntu), Window không biết vì chưa xài window bao giờ
+
+
