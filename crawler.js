@@ -89,7 +89,7 @@ class Crawler {
         return courses.reduce((a, b) => {
             return {
                 ...a,
-                [b.course]: b,
+                [b.option ? b.course + "-" + b.option : b.course]: b,
             };
         });
     }
