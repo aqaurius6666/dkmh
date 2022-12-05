@@ -4,6 +4,7 @@ const HttpAgent = require('./http-agent');
 const CookieManager = require('./cookie-manager');
 const fs = require('fs');
 const { safeParseJson, debug, log } = require('./utils');
+const { setMaxIdleHTTPParsers } = require('http');
 const crawller = Crawler.getInstance();
 const httpAgent = HttpAgent.getInstance();
 const cookieManager = CookieManager.getInstance();
@@ -78,35 +79,42 @@ const getCourses = async () => {
 const register = async (courses, registeredCourses, targetCourse) => {
     if (!courses[targetCourse]) {
         debug('Course', targetCourse, 'invalid');
-        return;
+        return false;
     }
-
     if (registeredCourses.includes(targetCourse)) {
         debug(`${targetCourse} is registered`);
-        return
+        return true
     }
-    debug('Find course', targetCourse);
-    debug('Target courses', courses[targetCourse]);
-    await httpAgent.post(`/kiem-tra-tien-quyet/${courses[targetCourse].crdid}/1`, '', {});
-    let data = await httpAgent.post(
-        `/chon-mon-hoc/${courses[targetCourse].rowIndex}/1/2`,
-        '',
-        {}
-    );
-    debug('Chon mon hoc response', data);
-    data = await httpAgent.post(`xac-nhan-dang-ky/1`, '', {});
-    debug('Xac nhan dang ky', data);
-    if (data.success) {
-        if (data.message === 'Ngoài thời hạn đăng ký') {
-            log('Ngoài thời hạn đăng ký');
-            return;
+
+    try {
+        debug('Find course', targetCourse);
+        debug('Target courses', courses[targetCourse]);
+        await httpAgent.post(`/kiem-tra-tien-quyet/${courses[targetCourse].crdid}/1`, '', {});
+        let data = await httpAgent.post(
+            `/chon-mon-hoc/${courses[targetCourse].rowIndex}/1/2`,
+            '',
+            {}
+        );
+        debug('Chon mon hoc response', data);
+        data = await httpAgent.post(`xac-nhan-dang-ky/1`, '', {});
+        debug('Xac nhan dang ky', data);
+        if (data.success) {
+            if (data.message === 'Ngoài thời hạn đăng ký') {
+                log('Ngoài thời hạn đăng ký');
+                return false
+            }
+            log('Register success');
+            registeredCourses.push(targetCourse)
+            fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-da-dang-ky-1.json`, JSON.stringify(registeredCourses));
+        } else {
+            log('Register failed');
+            return false
         }
-        log('Register success');
-        registeredCourses.push(targetCourse)
-        fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-da-dang-ky-1.json`, JSON.stringify(registeredCourses));
-    } else {
-        log('Register failed');
+    } catch (err) {
+        debug('Register error:', err.message);
+        return false
     }
+    
 
 }
 const test = async () => {
@@ -126,6 +134,7 @@ const test = async () => {
     await Promise.all(targetCourses.map(async (each) => {
         return register(courses, registeredCourses, each);
     }));
+    
 };
 
 const tool = async () => {
@@ -141,12 +150,19 @@ const tool = async () => {
 
     log('Get courses page');
     // Loop
+    
     targetCourses = config.TARGET_COURSES;
-    await Promise.all(targetCourses.map(async (each) => {
-        return register(courses, registeredCourses, each);
-    }));
+    let shouldLoop = true
+    while (shouldLoop) {
+        shouldLoop = (await Promise.all(targetCourses.map(async (each) => {
+            return register(courses, registeredCourses, each);
+        }))).includes(false)
+        await sleep(3000);
+    }
 };
-
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 const logout = async () => {
     debug('Logout');
     await httpAgent.get('/Account/Logout', null, {});
