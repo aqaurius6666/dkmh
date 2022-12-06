@@ -65,17 +65,33 @@ class Crawler {
                     .replace(/\s+/g, ' ');
 
                 course = course.replace('(CLC)', '').trim();
+                let source = 1;
+                if (course.includes('PES')) {
+                    source = 2;
+                }
                 if (course.includes('TH') && !course.includes('PES')) {
                     if (!optionCourses[course]) {
                         optionCourses[course] = 1;
-                    } else {
+                    } else if (optionCourses[course] = 1){
                         optionCourses[course] = 2;
+                    } else if (optionCourses[course] = 2) {
+                        optionCourses[course] = 3;
+                    }
+                    else if (optionCourses[course] = 3) {
+                        optionCourses[course] = 4;
+                    }
+                    else if (optionCourses[course] = 4) {
+                        optionCourses[course] = 5;
+                    }
+                    else if (optionCourses[course] = 5) {
+                        optionCourses[course] = 6;
                     }
                     courses.push({
                         course: course.replace('(TH)', '').trim(),
                         rowIndex: rowIndex,
                         option: optionCourses[course],
                         crdid: crdid,
+                        source: source,
                     });
                     return;
                 }
@@ -83,6 +99,7 @@ class Crawler {
                     course: course.replace('(TH)', '').trim(),
                     rowIndex: rowIndex,
                     crdid: crdid,
+                    source: source,
                 });
             });
 
@@ -91,7 +108,7 @@ class Crawler {
                 ...a,
                 [b.option ? b.course + "-" + b.option : b.course]: b,
             };
-        });
+        }, {});
     }
 }
 

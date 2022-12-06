@@ -57,11 +57,10 @@ const getRegisteredCourses = async () => {
     }
     return registeredCourses
 }
-const courseUrl = '/danh-sach-mon-hoc/1/1'
+const courseUrl = '/danh-sach-mon-hoc/1/2'
 const getCourses = async () => {
     let courses = null;
     const coursesPage = await httpAgent.post(courseUrl, '', {});
-
     if (fs.existsSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`)) {
         debug('Crawl courses from cache');
         courses = safeParseJson(fs.readFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`));
@@ -90,7 +89,7 @@ const register = async (courses, registeredCourses, targetCourse) => {
         debug('Target courses', courses[targetCourse]);
         await httpAgent.post(`/kiem-tra-tien-quyet/${courses[targetCourse].crdid}/1`, '', {});
         let data = await httpAgent.post(
-            `/chon-mon-hoc/${courses[targetCourse].rowIndex}/1/2`,
+            `/chon-mon-hoc/${courses[targetCourse].rowIndex}/1/${courses[targetCourse].source}`,
             '',
             {}
         );
@@ -106,9 +105,17 @@ const register = async (courses, registeredCourses, targetCourse) => {
                 log('Ngoài thời hạn đăng ký');
                 return false
             }
+            const regex = new RegExp(/\d/)
+            const validRegistered = data.message.match(regex)[0]
+            if (Number(validRegistered) <=  registeredCourses.length) {
+                debug('System not updated');
+                return false
+            }
             log('Register success');
-            registeredCourses.push(targetCourse)
-            fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-da-dang-ky-1.json`, JSON.stringify(registeredCourses));
+                registeredCourses.push(targetCourse)
+                fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-da-dang-ky-1.json`, JSON.stringify(registeredCourses));
+                return true
+            
         } else {
             log('Register failed');
             return false
@@ -174,6 +181,16 @@ const main = async (args) => {
         case 'logout':
             await logout();
             break;
+            case 'login':
+                while (!(await needLogin())) {
+                    try {
+                        await login()
+
+                    } catch (err) {
+                        debug('Login error:', err.message);
+                    }
+                }
+                break;
         default:
             await test();
             break;
