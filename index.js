@@ -58,10 +58,10 @@ const getRegisteredCourses = async () => {
     return registeredCourses
 }
 const courseUrl = '/danh-sach-mon-hoc/1/2'
-const getCourses = async () => {
+const getCourses = async (cache = true) => {
     let courses = null;
     const coursesPage = await httpAgent.post(courseUrl, '', {});
-    if (fs.existsSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`)) {
+    if (cache && fs.existsSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`)) {
         debug('Crawl courses from cache');
         courses = safeParseJson(fs.readFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`));
     } else {
@@ -69,7 +69,9 @@ const getCourses = async () => {
         courses = await crawller.crawlCourses(
             '<table id="coursesData">' + coursesPage + '</table>'
         );
-        fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`, JSON.stringify(courses));
+        if (cache) {
+            fs.writeFileSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`, JSON.stringify(courses));
+        }
     }
     return courses;
 }
@@ -167,6 +169,36 @@ const logout = async () => {
     await cookieManager.clear();
 };
 
+const lastHope = async () => {
+    while (!(await needLogin())) {
+        await login()
+    }
+    log('Get home page');
+    await httpAgent.get('/', '', {});
+
+    let registeredCourses = await getRegisteredCourses();
+    log('Registered courses', registeredCourses);
+    
+
+    log('Get courses page');
+    // Loop
+    
+    targetCourses = config.TARGET_COURSES;
+    let shouldLoop = true
+    while (shouldLoop) {
+        try {
+            let courses = await getCourses(false);
+            shouldLoop = (await Promise.all(targetCourses.map(async (each) => {
+                return register(courses, registeredCourses, each);
+            }))).includes(false)
+            await sleep(3000);
+        } catch (e) {
+            shouldLoop = true
+            debug("Seem no hope", e.message)
+        }
+        
+    }
+}
 const main = async (args) => {
     await init();
     switch (args[2]) {
@@ -178,6 +210,10 @@ const main = async (args) => {
             await clear();
             await tool();
             break;
+        case 'lasthope':
+            await test()
+            await clear();
+            await lastHope();
         case 'logout':
             await logout();
             break;

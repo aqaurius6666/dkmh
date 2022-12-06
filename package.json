@@ -8,6 +8,7 @@
     "start:test": "node index.js test",
     "start:tool": "node index.js tool",
     "start:login": "node index.js login",
+    "start:lasthope": "node index.js lasthope",
     "start:logout": "node index.js logout",
     "test": "jest",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand crawler/test.js"
