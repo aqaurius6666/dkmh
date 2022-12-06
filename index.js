@@ -57,10 +57,10 @@ const getRegisteredCourses = async () => {
     }
     return registeredCourses
 }
-
+const courseUrl = '/danh-sach-mon-hoc/1/1'
 const getCourses = async () => {
     let courses = null;
-    const coursesPage = await httpAgent.post('/danh-sach-mon-hoc/1/2', '', {});
+    const coursesPage = await httpAgent.post(courseUrl, '', {});
 
     if (fs.existsSync(`${__dirname}/.cache/danh-sach-mon-hoc-1-2.json`)) {
         debug('Crawl courses from cache');
@@ -95,6 +95,10 @@ const register = async (courses, registeredCourses, targetCourse) => {
             {}
         );
         debug('Chon mon hoc response', data);
+        if (!data.success) {
+            debug('Register failed', data);
+            return false
+        }
         data = await httpAgent.post(`xac-nhan-dang-ky/1`, '', {});
         debug('Xac nhan dang ky', data);
         if (data.success) {
@@ -132,7 +136,7 @@ const tool = async () => {
     await httpAgent.get('/', '', {});
 
     let registeredCourses = await getRegisteredCourses();
-
+    log('Registered courses', registeredCourses);
     let courses = await getCourses();
 
     log('Get courses page');
